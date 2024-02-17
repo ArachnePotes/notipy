@@ -73,7 +73,7 @@ def GenerateResponse():
                 2. da un contexto general a {selected_text}  de el siguiente texto resolviendo : [que, porque , para que]"""
     client.api_key = KEY
     response = client.completions.create(
-        model = "davinci-002",
+        model = "davinci-002", # gpt-3.5-turbo # gpt-4-0125-preview
         prompt = promt
     )
     answer = response.choices[0].text
