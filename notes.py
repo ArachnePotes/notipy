@@ -1,8 +1,13 @@
 from tkinter import Tk, Text, filedialog, Button, IntVar, Menu, Menubutton, Canvas, Scrollbar, BOTH, VERTICAL, HORIZONTAL
-import markdown as md
-
+import markdown2 as md
+from openai import OpenAI
+KEY = open('.key').read()
+#si. esto tiene GPT
+client = OpenAI(api_key=KEY)
+# Cosas basicas de tkinter
 root = Tk()
-text = Text(root)
+# Editor de texto
+text = Text(root) 
 text.grid()
 
 # Definir canvas como una variable global
@@ -19,7 +24,7 @@ horizontal_scrollbar.grid(row=1, column=1, columnspan=2, sticky="ew")  # Cambio 
 canvas.config(xscrollcommand=horizontal_scrollbar.set)
 
 # Definir canvas para el "Context Hub"
-canvas_context_hub = Canvas(root, width=200, height=300, bg='lightgray')
+canvas_context_hub = Canvas(root, width=200, height=300, bg='lightgray', bd = "5")
 canvas_context_hub.grid(row=0, column=3, sticky="n")
 
 # Función para obtener el texto seleccionado en el editor de texto
@@ -39,15 +44,47 @@ show_context_button.grid(row=1, column=3, sticky="s")
 
 # Función para generar contexto con el texto seleccionado
 def generate_context():
+    global canvas_context_hub
     selected_text = get_selected_text()
-    # Aquí puedes realizar alguna acción con el texto seleccionado, como procesarlo para generar contexto
-    pass
+
+    completion = client.chat.completions.create(
+        model="davinci-002",
+        messages=[
+            {"role": "system", "content": f"""tienes que responder de 2 maneras:
+                1. responde en base a lo que esta entre los simbolos $(aqui va una pregunta)$ el texto seleccionado
+                2. da un contexto general de el siguiente texto resolviendo : [que, porque , para que]
+             si esta vacio el texto seleccionado y no hay pregunta, genera un mensaje graciosos al respecto"""},
+            {"role": "user", "content": f"{selected_text}"}
+                ],
+        temperature=0.7,
+        max_tokens=240,
+        )   
+    answer = completion.choices[0].message
+    
+    canvas_context_hub.delete("all")  # Limpiar cualquier contenido previo
+    canvas_context_hub.create_text(100, 150, text=answer, font=("Arial", 12), justify="center")
+
+def GenerateResponse():
+    '''
+    global canvas_context_hub
+    selected_text = get_selected_text()
+    promt = f"""tienes que responder de 2 maneras:
+                1. responde en base a lo que esta entre los simbolos $(aqui va una pregunta)$ el texto seleccionado
+                2. da un contexto general a {selected_text}  de el siguiente texto resolviendo : [que, porque , para que]"""
+    client.api_key = KEY
+    response = client.completions.create(
+        model = "davinci-002",
+        prompt = promt
+    )
+    answer = response.choices[0].text
+    '''
+    answer = "you need 5 bucks"
+    canvas_context_hub.delete("all")  # Limpiar cualquier contenido previo
+    canvas_context_hub.create_text(100, 150, text=answer, font=("Arial", 12), justify="center")
 
 # Botón para generar contexto con el texto seleccionado
-generate_context_button = Button(root, text="Generate Context", command=generate_context)
+generate_context_button = Button(root, text="Generate Context", command=GenerateResponse)
 generate_context_button.grid(row=2, column=3, sticky="n")
-
-
 
 def saveas():
     global text
