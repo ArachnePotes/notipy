@@ -1,5 +1,5 @@
 #from tkinter import tkFileDialog
-from tkinter import Tk,Text,filedialog,Button,IntVar,Menu,Menubutton,Message
+from tkinter import Tk,Text,filedialog,Button,IntVar,Menu,Menubutton
 
 root=Tk()
 text=Text(root) 
