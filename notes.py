@@ -2,5 +2,5 @@
 from Tkinter import * 
 
 root=Tk("Text Editor")
-root.mainloop()
+    root.mainloop()
 
