@@ -52,6 +52,3 @@ def ejemplo():
 
 ---
 
-Espero que este markdown te sea útil para probar diversas funcionalidades.
-
-

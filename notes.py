@@ -1,9 +1,12 @@
 from tkinter import Tk, Text, filedialog, Button, IntVar, Menu, Menubutton, Canvas, Scrollbar, BOTH, VERTICAL, HORIZONTAL
 import markdown2 as md
+'''# des comentar cuando tengas KEY con tokens
 from openai import OpenAI
 KEY = open('.key').read()
 #si. esto tiene GPT
 client = OpenAI(api_key=KEY)
+'''
+
 # Cosas basicas de tkinter
 root = Tk()
 # Editor de texto
