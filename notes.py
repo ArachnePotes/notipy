@@ -135,6 +135,7 @@ def FontHelvetica():
     global text
 
     text.config(font="Helvetica")
+
 def FontCourier():
 
     global text
@@ -167,11 +168,11 @@ execute_button = Button(root, text="Execute Markdown", command=execute_markdown)
 execute_button.grid(row=2, column=1, sticky="e")
 
 def complete_text(text):
-    html = md.markdown(text,output_format="html")
+    html_t = md.markdown(text)
     template = f'''
     <!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My File</title></head><body>{html}</body></html>
+    <title>My File</title></head><body>{html_t}</body></html>
     '''
     return template
 
